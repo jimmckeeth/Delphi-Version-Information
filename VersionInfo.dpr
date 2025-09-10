@@ -75,15 +75,30 @@ begin
 {$ENDIF}
 
     // -- D13
-    // TBD
-    // --
+{$IFDEF VER370}
+    LConditionalVersion := 'VER370';
+    LCodeName := 'Florence';
+    var
+      LInternalVersion: Extended := 37.0;
+{$ENDIF}
+{$IF RTLVersion=37}
+    LMainVersion := 13.0;
+    LRTLVersionXXX := 'RTLVersion = 37';
+    LBuildNo := '37.0.57242.3601';
+    LProjectVersion := 20.3;
+{$ENDIF}
 
     var
       LRTLVersion: Extended := RTLVersion;
     var
-    LProductVersion := LBuildNo.Split(['.'])[0].ToInteger;
+      LProductVersion:integer;
+    try
+      LProductVersion := LBuildNo.Split(['.'])[0].ToInteger;
+    except
+      LProductVersion := -1;
+    end;
     var
-    LPackageversion := LProductVersion * 10;
+      LPackageversion := LProductVersion * 10;
 
     Writeln('Main Version: ' + LMainVersion.ToVersionString);
     Writeln('Code Name: ' + LCodeName);
